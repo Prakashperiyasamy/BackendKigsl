@@ -23,11 +23,26 @@ router.post('/callHistory', async (req, res) => {
 
     await CallDetails.findOne({ name: outgoing_name }, async (err, contact) => {
       console.log(contact)
-      await CallDetails.updateOne({ name: outgoing_name }, { Incomingcall_Count: contact.Incomingcall_Count + 1 });
+      if (contact) {
+        await CallDetails.updateOne({ name: outgoing_name }, { Incomingcall_Count: contact.Incomingcall_Count + 1 });
+
+      }
+      else {
+        res.status(400).json({
+          "message": "Something went wrong"
+        });
+      }
     });
     await CallDetails.findOne({ name }, async (err, contact) => {
-      console.log(contact)
-      await CallDetails.updateOne({ name: name }, { outgoingcall_Count: contact.outgoingcall_Count + 1 });
+      if (contact) {
+        console.log(contact)
+        await CallDetails.updateOne({ name: name }, { outgoingcall_Count: contact.outgoingcall_Count + 1 });
+      } else {
+        res.status(400).json({
+          "message": "Something went wrong"
+        });
+      }
+
     });
     res.status(201).json({
       success: true,
