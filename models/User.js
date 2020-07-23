@@ -18,6 +18,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
+  phone_number:{
+    type:Number,
+    required:true,
+  },
   date: {
     type: Date,
     default: Date.now

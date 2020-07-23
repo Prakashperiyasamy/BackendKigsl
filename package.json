@@ -1,7 +1,7 @@
 {
-  "name": "boilerplate",
+  "name": "interview",
   "version": "1.0.0",
-  "description": "Mern Boilerplate with auth",
+  "description": "interview",
   "main": "server.js",
   "scripts": {
     "start": "node server",

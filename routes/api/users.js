@@ -20,12 +20,14 @@ router.post(
     ).isLength({ min: 6 })
   ],
   async (req, res) => {
+  
+
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { firstName,lastName, email, password } = req.body;
+    const { firstName,lastName, email, password ,phone_number} = req.body;
 
     try {
       let user = await User.findOne({ email });
@@ -40,7 +42,8 @@ router.post(
         firstName,
         lastName,
         email,
-        password
+        password,
+        phone_number
       });
 
       const salt = await bcrypt.genSalt(10);
