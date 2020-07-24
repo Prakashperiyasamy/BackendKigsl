@@ -2,9 +2,12 @@ const express = require('express');
 const connectDB = require('./config/db');
 const path = require('path');
 const helmet = require('helmet');
+const cors = require('cors')
+
+ 
 
 const app = express();
-
+app.use(cors())
 // Connect Database
 connectDB();
 

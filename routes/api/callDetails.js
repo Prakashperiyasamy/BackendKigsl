@@ -16,7 +16,7 @@ const { route } = require('./users');
 // @desc     Get current users profile
 // @access   Private
 
-router.post('/callHistory', async (req, res) => {
+router.post('/callHistory', auth,async (req, res) => {
 
   try {
     let { outgoing_no, outgoing_name, name, phone_number } = req.body;
@@ -58,7 +58,7 @@ router.post('/callHistory', async (req, res) => {
 
 })
 
-router.post('/createcontact', [
+router.post('/createcontact', auth, [
   check('name', 'Please Enter a name').isAlphanumeric(),
   check(
     'number',
@@ -99,7 +99,7 @@ router.post('/createcontact', [
 })
 
 
-router.put('/updatecontact/:contactId', [
+router.put('/updatecontact/:contactId', auth, [
   check('name', 'Please Enter a name').notEmpty(),
   check(
     'number',
@@ -135,9 +135,9 @@ router.put('/updatecontact/:contactId', [
 
 })
 
-router.delete('/deleteContact/:contactId', async (req, res) => {
+router.delete('/deleteContact/:contactId', auth, async (req, res) => {
   try {
-  
+
     let customer = await CallDetails.findByIdAndRemove(req.params.contactId);
     console.log(customer)
     if (!customer) {
@@ -158,7 +158,7 @@ router.delete('/deleteContact/:contactId', async (req, res) => {
 
 })
 
-router.get('/allcontact', async (req, res) => {
+router.get('/allcontact', auth, async (req, res) => {
 
   try {
     let contact = await CallDetails.find();
