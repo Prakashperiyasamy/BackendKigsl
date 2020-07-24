@@ -1,0 +1,6 @@
+
+
+{
+    "mongoURI": "mongodb://Kigsl:Nodejs123@ds239128.mlab.com:39128/kigsl",
+    "jwtSecret": "secret"
+  }
