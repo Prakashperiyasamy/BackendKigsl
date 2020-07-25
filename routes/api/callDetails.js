@@ -16,31 +16,25 @@ const { route } = require('./users');
 // @desc     Get current users profile
 // @access   Private
 
-router.post('/callHistory', auth,async (req, res) => {
+router.post('/callHistory', auth, async (req, res) => {
 
   try {
     let { outgoing_no, outgoing_name, name, phone_number } = req.body;
 
     await CallDetails.findOne({ name: outgoing_name }, async (err, contact) => {
-      console.log(contact)
       if (contact) {
         await CallDetails.updateOne({ name: outgoing_name }, { Incomingcall_Count: contact.Incomingcall_Count + 1 });
 
       }
       else {
-        res.status(400).json({
-          "message": "Something went wrong"
-        });
+        res.status(400)
       }
     });
     await CallDetails.findOne({ name }, async (err, contact) => {
       if (contact) {
-        console.log(contact)
         await CallDetails.updateOne({ name: name }, { outgoingcall_Count: contact.outgoingcall_Count + 1 });
       } else {
-        res.status(400).json({
-          "message": "Something went wrong"
-        });
+        res.status(400)
       }
 
     });
@@ -58,7 +52,7 @@ router.post('/callHistory', auth,async (req, res) => {
 
 })
 
-router.post('/createcontact', auth, [
+router.post('/createContact', auth, [
   check('name', 'Please Enter a name').isAlphanumeric(),
   check(
     'number',
@@ -99,7 +93,7 @@ router.post('/createcontact', auth, [
 })
 
 
-router.put('/updatecontact/:contactId', auth, [
+router.put('/updateContact/:contactId', auth, [
   check('name', 'Please Enter a name').notEmpty(),
   check(
     'number',
@@ -116,7 +110,6 @@ router.put('/updatecontact/:contactId', auth, [
     // const { customerId } = req.params;
 
     let customer = await CallDetails.findByIdAndUpdate(req.params.contactId, req.body);
-    console.log(customer)
     if (!customer) {
       return res
         .status(400)
@@ -139,7 +132,6 @@ router.delete('/deleteContact/:contactId', auth, async (req, res) => {
   try {
 
     let customer = await CallDetails.findByIdAndRemove(req.params.contactId);
-    console.log(customer)
     if (!customer) {
       return res
         .status(400)
@@ -158,11 +150,10 @@ router.delete('/deleteContact/:contactId', auth, async (req, res) => {
 
 })
 
-router.get('/allcontact', auth, async (req, res) => {
+router.get('/allContact', auth, async (req, res) => {
 
   try {
     let contact = await CallDetails.find();
-    console.log(contact)
     if (contact.length == 0) {
       return res
         .status(400)
